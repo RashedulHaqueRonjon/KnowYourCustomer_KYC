@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form 9: Survey Information</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px 40px;
+            text-align: center;
+        }
+        .header h1 { font-size: 1.8em; margin-bottom: 5px; }
+        .header p { font-size: 1em; opacity: 0.95; }
+        .form-header {
+            background: #f8f9fa;
+            padding: 25px 40px;
+            border-bottom: 3px solid #667eea;
+        }
+        .form-header h2 {
+            color: #667eea;
+            font-size: 1.3em;
+            margin-bottom: 20px;
+        }
+        .header-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        .header-item label {
+            display: block;
+            font-weight: 600;
+            color: #495057;
+            margin-bottom: 5px;
+            font-size: 13px;
+        }
+        .header-item input {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #dee2e6;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        .required { color: #dc3545; }
+        .form-content { padding: 40px; }
+        .section-title {
+            font-size: 1.5em;
+            color: #667eea;
+            margin-bottom: 25px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+        }
+        .subsection {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            border: 2px solid #dee2e6;
+        }
+        .subsection-title {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 1.2em;
+            font-weight: 600;
+        }
+        .form-group { margin-bottom: 20px; }
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            color: #495057;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #dee2e6;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+        .radio-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 10px;
+        }
+        .radio-group label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: normal;
+            cursor: pointer;
+            padding: 8px 12px;
+            border: 2px solid #dee2e6;
+            border-radius: 5px;
+            transition: all 0.3s;
+        }
+        .radio-group label:hover {
+            border-color: #667eea;
+            background: white;
+        }
+        .action-item {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            border: 2px solid #dee2e6;
+        }
+        .action-item h5 {
+            color: #667eea;
+            margin-bottom: 12px;
+            font-size: 1em;
+        }
+        .footer {
+            background: #f8f9fa;
+            padding: 30px 40px;
+            text-align: center;
+            border-top: 3px solid #667eea;
+        }
+        .footer h3 { color: #495057; margin-bottom: 15px; }
+        .footer p { color: #6c757d; margin-bottom: 20px; line-height: 1.6; }
+        .checkbox-declaration {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+        .checkbox-declaration input { width: 20px; height: 20px; cursor: pointer; }
+        .btn-submit {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 50px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        .btn-submit:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+        }
+        .completion-banner {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            font-size: 1.1em;
+            font-weight: 600;
+            margin: -40px -40px 30px -40px;
+            border-radius: 10px 10px 0 0;
+        }
+        @media (max-width: 768px) {
+            .grid-2, .grid-3 { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🏥 Medical Equipment KYC Survey Form</h1>
+            <p>Comprehensive Institution Assessment</p>
+        </div>
+
+        <div class="form-header">
+            <h2>📋 Form 9 of 9: Survey Information (Final Form)</h2>
+            <div class="header-grid">
+                <div class="header-item">
+                    <label>Institution Name <span class="required">*</span></label>
+                    <input type="text" name="institutionName" placeholder="e.g., Dhaka Medical College Hospital" required>
+                </div>
+                <div class="header-item">
+                    <label>Institution ID (if not first visit)</label>
+                    <input type="text" name="institutionId" placeholder="e.g., INST-1000">
+                </div>
+                <div class="header-item">
+                    <label>Information Update Date <span class="required">*</span></label>
+                    <input type="date" name="updateDate" required>
+                </div>
+                <div class="header-item">
+                    <label>Employee ID <span class="required">*</span></label>
+                    <input type="text" name="employeeId" placeholder="e.g., EMP001" required>
+                </div>
+                <div class="header-item">
+                    <label>Employee Name (Optional)</label>
+                    <input type="text" name="employeeName" placeholder="Office/Nick/Family Name">
+                </div>
+            </div>
+        </div>
+
+        <form id="surveyInfoForm">
+            <div class="form-content">
+                <div class="completion-banner">
+                    ✅ Final Form - Complete Survey Documentation
+                </div>
+
+                <h2 class="section-title">Survey Information & Metadata</h2>
+                
+                <div class="subsection">
+                    <h3 class="subsection-title">📅 Visit Details</h3>
+                    
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label>Visit Date <span class="required">*</span></label>
+                            <input type="date" name="visitDate" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Visit Time</label>
+                            <input type="time" name="visitTime">
+                        </div>
+                    </div>
+
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label>Visit Duration (minutes)</label>
+                            <input type="number" name="visitDuration" min="0" placeholder="e.g., 45">
+                        </div>
+                        <div class="form-group">
+                            <label>Number of Forms Completed</label>
+                            <input type="number" name="formsCompleted" min="1" max="9" placeholder="e.g., 9">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Visit Type <span class="required">*</span></label>
+                        <select name="visitType" required>
+                            <option value="">-- Select Visit Type --</option>
+                            <option value="Initial Survey">Initial Survey/First Visit</option>
+                            <option value="Follow-up">Follow-up Visit</option>
+                            <option value="Installation">Installation Visit</option>
+                            <option value="Service Call">Service Call</option>
+                            <option value="Training">Training Session</option>
+                            <option value="Demonstration">Product Demonstration</option>
+                            <option value="Complaint Resolution">Complaint Resolution</option>
+                            <option value="Routine Check">Routine Check-in</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Visit Purpose/Objective <span class="required">*</span></label>
+                        <textarea name="visitPurpose" rows="3" placeholder="Describe the main purpose of this visit..." required></textarea>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3 class="subsection-title">👥 People Met During Visit</h3>
+                    
+                    <div class="form-group">
+                        <label>Key Person Met</label>
+                        <input type="text" name="keyPersonMet" placeholder="Name and designation of key decision maker">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Doctors/Consultants Met</label>
+                        <textarea name="doctorsMet" rows="2" placeholder="List names and departments of doctors/consultants met..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Other Staff Met</label>
+                        <textarea name="otherStaffMet" rows="2" placeholder="Lab technicians, administrators, or other staff members..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Total People Interacted With</label>
+                        <input type="number" name="totalPeopleMet" min="0" placeholder="Approximate number">
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3 class="subsection-title">🔍 Findings & Outcomes</h3>
+                    
+                    <div class="form-group">
+                        <label>Key Findings/Observations <span class="required">*</span></label>
+                        <textarea name="keyFindings" rows="4" placeholder="Summarize important findings, observations, or insights from this visit..." required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Agreements Reached</label>
+                        <textarea name="agreements" rows="3" placeholder="Any commitments, agreements, or deals made during the visit..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Issues Identified</label>
+                        <textarea name="issuesIdentified" rows="3" placeholder="Problems, concerns, or challenges discovered..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Opportunities Discovered</label>
+                        <textarea name="opportunities" rows="3" placeholder="New business opportunities, upsell possibilities, or expansion potential..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Customer Mood/Sentiment</label>
+                        <div class="radio-group">
+                            <label><input type="radio" name="customerMood" value="Very Positive"> Very Positive</label>
+                            <label><input type="radio" name="customerMood" value="Positive"> Positive</label>
+                            <label><input type="radio" name="customerMood" value="Neutral"> Neutral</label>
+                            <label><input type="radio" name="customerMood" value="Negative"> Negative</label>
+                            <label><input type="radio" name="customerMood" value="Very Negative"> Very Negative</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3 class="subsection-title">✅ Action Items & Follow-up</h3>
+                    
+                    <div class="action-item">
+                        <h5>Action Item #1</h5>
+                        <div class="form-group">
+                            <label>Action Required</label>
+                            <textarea name="action1_desc" rows="2" placeholder="Describe the action that needs to be taken..."></textarea>
+                        </div>
+                        <div class="grid-3">
+                            <div class="form-group">
+                                <label>Assigned To</label>
+                                <input type="text" name="action1_assignee" placeholder="Employee name/ID">
+                            </div>
+                            <div class="form-group">
+                                <label>Due Date</label>
+                                <input type="date" name="action1_due">
+                            </div>
+                            <div class="form-group">
+                                <label>Priority</label>
+                                <select name="action1_priority">
+                                    <option value="">-- Select --</option>
+                                    <option value="High">High/Urgent</option>
+                                    <option value="Medium">Medium</option>
+                                    <option value="Low">Low</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="action-item">
+                        <h5>Action Item #2</h5>
+                        <div class="form-group">
+                            <label>Action Required</label>
+                            <textarea name="action2_desc" rows="2" placeholder="Describe the action that needs to be taken..."></textarea>
+                        </div>
+                        <div class="grid-3">
+                            <div class="form-group">
+                                <label>Assigned To</label>
+                                <input type="text" name="action2_assignee" placeholder="Employee name/ID">
+                            </div>
+                            <div class="form-group">
+                                <label>Due Date</label>
+                                <input type="date" name="action2_due">
+                            </div>
+                            <div class="form-group">
+                                <label>Priority</label>
+                                <select name="action2_priority">
+                                    <option value="">-- Select --</option>
+                                    <option value="High">High/Urgent</option>
+                                    <option value="Medium">Medium</option>
+                                    <option value="Low">Low</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="action-item">
+                        <h5>Action Item #3</h5>
+                        <div class="form-group">
+                            <label>Action Required</label>
+                            <textarea name="action3_desc" rows="2" placeholder="Describe the action that needs to be taken..."></textarea>
+                        </div>
+                        <div class="grid-3">
+                            <div class="form-group">
+                                <label>Assigned To</label>
+                                <input type="text" name="action3_assignee" placeholder="Employee name/ID">
+                            </div>
+                            <div class="form-group">
+                                <label>Due Date</label>
+                                <input type="date" name="action3_due">
+                            </div>
+                            <div class="form-group">
+                                <label>Priority</label>
+                                <select name="action3_priority">
+                                    <option value="">-- Select --</option>
+                                    <option value="High">High/Urgent</option>
+                                    <option value="Medium">Medium</option>
+                                    <option value="Low">Low</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Next Follow-up Date <span class="required">*</span></label>
+                        <input type="date" name="nextFollowUp" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Follow-up Purpose</label>
+                        <textarea name="followUpPurpose" rows="2" placeholder="What should be the purpose of the next follow-up visit?"></textarea>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3 class="subsection-title">📝 Additional Observations</h3>
+                    
+                    <div class="form-group">
+                        <label>Equipment Status Observed</label>
+                        <textarea name="equipmentStatus" rows="2" placeholder="Condition of equipment, functionality, usage patterns observed..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Facility Condition</label>
+                        <textarea name="facilityCondition" rows="2" placeholder="Overall condition of the facility, cleanliness, infrastructure..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Staff Competency Level</label>
+                        <div class="radio-group">
+                            <label><input type="radio" name="staffCompetency" value="Highly Skilled"> Highly Skilled</label>
+                            <label><input type="radio" name="staffCompetency" value="Adequately Skilled"> Adequately Skilled</label>
+                            <label><input type="radio" name="staffCompetency" value="Need Training"> Need Training</label>
+                            <label><input type="radio" name="staffCompetency" value="Significant Gap"> Significant Skill Gap</label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Overall Assessment</label>
+                        <textarea name="overallAssessment" rows="4" placeholder="Comprehensive assessment of the institution, relationship status, business potential..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Internal Notes (Not to Share with Customer)</label>
+                        <textarea name="internalNotes" rows="3" placeholder="Confidential notes, pricing strategies, competitor intelligence, etc."></textarea>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3 class="subsection-title">🎯 Business Potential Assessment</h3>
+                    
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label>Estimated Annual Revenue Potential (BDT)</label>
+                            <input type="text" name="revenuePotential" placeholder="e.g., 1,00,00,000">
+                        </div>
+                        <div class="form-group">
+                            <label>Customer Classification</label>
+                            <select name="customerClass">
+                                <option value="">-- Select --</option>
+                                <option value="Key Account">Key Account (High Value)</option>
+                                <option value="Major Account">Major Account</option>
+                                <option value="Standard Account">Standard Account</option>
+                                <option value="Small Account">Small Account</option>
+                                <option value="Prospect">Prospect (Not Yet Customer)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Relationship Quality</label>
+                        <div class="radio-group">
+                            <label><input type="radio" name="relationshipQuality" value="Excellent"> Excellent</label>
+                            <label><input type="radio" name="relationshipQuality" value="Good"> Good</label>
+                            <label><input type="radio" name="relationshipQuality" value="Fair"> Fair</label>
+                            <label><input type="radio" name="relationshipQuality" value="Poor"> Poor</label>
+                            <label><input type="radio" name="relationshipQuality" value="New"> New/Not Established</label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Probability of Next Purchase</label>
+                        <div class="radio-group">
+                            <label><input type="radio" name="purchaseProbability" value="Very High"> Very High (90%+)</label>
+                            <label><input type="radio" name="purchaseProbability" value="High"> High (70-90%)</label>
+                            <label><input type="radio" name="purchaseProbability" value="Medium"> Medium (40-70%)</label>
+                            <label><input type="radio" name="purchaseProbability" value="Low"> Low (10-40%)</label>
+                            <label><input type="radio" name="purchaseProbability" value="Very Low"> Very Low (<10%)</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer">
+                <h3>Declaration</h3>
+                <p>I hereby declare that the information provided in this survey form is accurate and complete to the best of my knowledge.</p>
+                <div class="checkbox-declaration">
+                    <input type="checkbox" name="declaration" id="declaration" required>
+                    <label for="declaration">I agree to the terms and confirm the accuracy of the information provided <span class="required">*</span></label>
+                </div>
+                <button type="submit" class="btn-submit">📝 Submit Final Survey Form</button>
+                <p style="margin-top: 20px; color: #6c757d; font-size: 14px;">
+                    Fields marked with <span class="required">*</span> are required
+                </p>
+                <p style="margin-top: 15px; color: #28a745; font-weight: 600; font-size: 15px;">
+                    ✅ Congratulations! This completes the 9-form KYC Survey Package
+                </p>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('surveyInfoForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData.entries());
+            alert('🎉 Form 9: Survey Information Submitted Successfully!\n\n✅ Complete KYC Survey Package Finished!\n\nData logged to console (F12)');
+            console.log('Form 9 Data:', data);
+            console.log('📋 All 9 forms completed! Survey package is now complete.');
+        });
+    </script>
+</body>
+</html>

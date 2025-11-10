@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form 7: Satisfaction & Service Feedback</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px 40px;
+            text-align: center;
+        }
+        .header h1 { font-size: 1.8em; margin-bottom: 5px; }
+        .header p { font-size: 1em; opacity: 0.95; }
+        .form-header {
+            background: #f8f9fa;
+            padding: 25px 40px;
+            border-bottom: 3px solid #667eea;
+        }
+        .form-header h2 {
+            color: #667eea;
+            font-size: 1.3em;
+            margin-bottom: 20px;
+        }
+        .header-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        .header-item label {
+            display: block;
+            font-weight: 600;
+            color: #495057;
+            margin-bottom: 5px;
+            font-size: 13px;
+        }
+        .header-item input {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #dee2e6;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        .required { color: #dc3545; }
+        .form-content { padding: 40px; }
+        .section-title {
+            font-size: 1.5em;
+            color: #667eea;
+            margin-bottom: 25px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+        }
+        .subsection {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            border: 2px solid #dee2e6;
+        }
+        .subsection-title {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 1.2em;
+            font-weight: 600;
+        }
+        .form-group { margin-bottom: 20px; }
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            color: #495057;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #dee2e6;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .rating-group {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            border: 2px solid #dee2e6;
+        }
+        .rating-label {
+            font-weight: 600;
+            color: #495057;
+            margin-bottom: 12px;
+            display: block;
+        }
+        .rating-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .rating-slider {
+            flex: 1;
+            height: 8px;
+            border-radius: 5px;
+            outline: none;
+            -webkit-appearance: none;
+            background: linear-gradient(to right, #dc3545 0%, #ffc107 50%, #28a745 100%);
+        }
+        .rating-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: #667eea;
+            cursor: pointer;
+            border: 3px solid white;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+        .rating-slider::-moz-range-thumb {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: #667eea;
+            cursor: pointer;
+            border: 3px solid white;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+        .rating-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #667eea;
+            min-width: 50px;
+            text-align: center;
+        }
+        .rating-scale {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: #6c757d;
+            margin-top: 5px;
+        }
+        .radio-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 10px;
+        }
+        .radio-group label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: normal;
+            cursor: pointer;
+            padding: 8px 12px;
+            border: 2px solid #dee2e6;
+            border-radius: 5px;
+            transition: all 0.3s;
+        }
+        .radio-group label:hover {
+            border-color: #667eea;
+            background: white;
+        }
+        .footer {
+            background: #f8f9fa;
+            padding: 30px 40px;
+            text-align: center;
+            border-top: 3px solid #667eea;
+        }
+        .footer h3 { color: #495057; margin-bottom: 15px; }
+        .footer p { color: #6c757d; margin-bottom: 20px; line-height: 1.6; }
+        .checkbox-declaration {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+        .checkbox-declaration input { width: 20px; height: 20px; cursor: pointer; }
+        .btn-submit {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 50px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        .btn-submit:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+        }
+        @media (max-width: 768px) {
+            .grid-2 { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🏥 Medical Equipment KYC Survey Form</h1>
+            <p>Comprehensive Institution Assessment</p>
+        </div>
+
+        <div class="form-header">
+            <h2>📋 Form 7 of 9: Satisfaction & Service Feedback</h2>
+            <div class="header-grid">
+                <div class="header-item">
+                    <label>Institution Name <span class="required">*</span></label>
+                    <input type="text" name="institutionName" placeholder="e.g., Dhaka Medical College Hospital" required>
+                </div>
+                <div class="header-item">
+                    <label>Institution ID (if not first visit)</label>
+                    <input type="text" name="institutionId" placeholder="e.g., INST-1000">
+                </div>
+                <div class="header-item">
+                    <label>Information Update Date <span class="required">*</span></label>
+                    <input type="date" name="updateDate" required>
+                </div>
+                <div class="header-item">
+                    <label>Employee ID <span class="required">*</span></label>
+                    <input type="text" name="employeeId" placeholder="e.g., EMP001" required>
+                </div>
+                <div class="header-item">
+                    <label>Employee Name (Optional)</label>
+                    <input type="text" name="employeeName" placeholder="Office/Nick/Family Name">
+                </div>
+            </div>
+        </div>
+
+        <form id="satisfactionForm">
+            <div class="form-content">
+                <h2 class="section-title">Satisfaction & Service Feedback</h2>
+                
+                <div class="subsection">
+                    <h3 class="subsection-title">👤 Feedback Provider Information</h3>
+                    
+                    <div class="form-group">
+                        <label>Provider Type <span class="required">*</span></label>
+                        <div class="radio-group">
+                            <label><input type="radio" name="providerType" value="Key Person" required> Key Person/Decision Maker</label>
+                            <label><input type="radio" name="providerType" value="Doctor"> Doctor/Consultant</label>
+                            <label><input type="radio" name="providerType" value="Equipment User"> Equipment User/Technician</label>
+                            <label><input type="radio" name="providerType" value="Other"> Other Staff</label>
+                        </div>
+                    </div>
+
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label>Provider Name <span class="required">*</span></label>
+                            <input type="text" name="providerName" placeholder="Full Name" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Designation</label>
+                            <input type="text" name="providerDesignation" placeholder="e.g., Lab Director, Head Technician">
+                        </div>
+                    </div>
+
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label>Department</label>
+                            <input type="text" name="providerDept" placeholder="e.g., Biochemistry, Pathology">
+                        </div>
+                        <div class="form-group">
+                            <label>Contact Phone</label>
+                            <input type="tel" name="providerPhone" placeholder="+880-XXXX-XXXXXX">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3 class="subsection-title">⭐ Rating Scales (1-10)</h3>
+                    <p style="margin-bottom: 20px; color: #6c757d;">Please rate the following aspects on a scale of 1 to 10 (1 = Very Dissatisfied, 10 = Extremely Satisfied)</p>
+                    
+                    <div class="rating-group">
+                        <label class="rating-label">Overall Satisfaction with Current Equipment</label>
+                        <div class="rating-container">
+                            <input type="range" name="satisfactionEquipment" class="rating-slider" min="1" max="10" value="5" 
+                                   oninput="this.nextElementSibling.textContent = this.value">
+                            <span class="rating-value">5</span>
+                        </div>
+                        <div class="rating-scale">
+                            <span>1 (Very Poor)</span>
+                            <span>5 (Average)</span>
+                            <span>10 (Excellent)</span>
+                        </div>
+                    </div>
+
+                    <div class="rating-group">
+                        <label class="rating-label">Service Response Time Satisfaction</label>
+                        <div class="rating-container">
+                            <input type="range" name="satisfactionService" class="rating-slider" min="1" max="10" value="5"
+                                   oninput="this.nextElementSibling.textContent = this.value">
+                            <span class="rating-value">5</span>
+                        </div>
+                        <div class="rating-scale">
+                            <span>1 (Very Slow)</span>
+                            <span>5 (Acceptable)</span>
+                            <span>10 (Very Fast)</span>
+                        </div>
+                    </div>
+
+                    <div class="rating-group">
+                        <label class="rating-label">Technical Support Quality</label>
+                        <div class="rating-container">
+                            <input type="range" name="satisfactionSupport" class="rating-slider" min="1" max="10" value="5"
+                                   oninput="this.nextElementSibling.textContent = this.value">
+                            <span class="rating-value">5</span>
+                        </div>
+                        <div class="rating-scale">
+                            <span>1 (Very Poor)</span>
+                            <span>5 (Adequate)</span>
+                            <span>10 (Outstanding)</span>
+                        </div>
+                    </div>
+
+                    <div class="rating-group">
+                        <label class="rating-label">Product Quality Satisfaction</label>
+                        <div class="rating-container">
+                            <input type="range" name="satisfactionQuality" class="rating-slider" min="1" max="10" value="5"
+                                   oninput="this.nextElementSibling.textContent = this.value">
+                            <span class="rating-value">5</span>
+                        </div>
+                        <div class="rating-scale">
+                            <span>1 (Very Low)</span>
+                            <span>5 (Good)</span>
+                            <span>10 (Exceptional)</span>
+                        </div>
+                    </div>
+
+                    <div class="rating-group">
+                        <label class="rating-label">Pricing Satisfaction (Value for Money)</label>
+                        <div class="rating-container">
+                            <input type="range" name="satisfactionPricing" class="rating-slider" min="1" max="10" value="5"
+                                   oninput="this.nextElementSibling.textContent = this.value">
+                            <span class="rating-value">5</span>
+                        </div>
+                        <div class="rating-scale">
+                            <span>1 (Too Expensive)</span>
+                            <span>5 (Fair)</span>
+                            <span>10 (Great Value)</span>
+                        </div>
+                    </div>
+
+                    <div class="rating-group">
+                        <label class="rating-label">Training & Documentation Quality</label>
+                        <div class="rating-container">
+                            <input type="range" name="satisfactionTraining" class="rating-slider" min="1" max="10" value="5"
+                                   oninput="this.nextElementSibling.textContent = this.value">
+                            <span class="rating-value">5</span>
+                        </div>
+                        <div class="rating-scale">
+                            <span>1 (Very Poor)</span>
+                            <span>5 (Adequate)</span>
+                            <span>10 (Excellent)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3 class="subsection-title">💬 Qualitative Feedback</h3>
+                    
+                    <div class="form-group">
+                        <label>What Do We Do Well? (Strengths)</label>
+                        <textarea name="strengths" rows="4" placeholder="Tell us what you appreciate about our products and services..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>What Can We Improve? (Areas for Improvement)</label>
+                        <textarea name="improvements" rows="4" placeholder="Your suggestions for better service, products, or support..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Specific Positive Incidents/Experiences</label>
+                        <textarea name="positiveIncidents" rows="3" placeholder="Describe any particularly good experiences with our service or products..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Specific Negative Incidents/Issues</label>
+                        <textarea name="negativeIncidents" rows="3" placeholder="Describe any problems or disappointing experiences..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Additional Comments & Feedback</label>
+                        <textarea name="additionalFeedback" rows="4" placeholder="Any other comments, concerns, or suggestions..."></textarea>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3 class="subsection-title">📊 Net Promoter Score</h3>
+                    
+                    <div class="form-group">
+                        <label>Would You Recommend Us to Others? <span class="required">*</span></label>
+                        <div class="radio-group">
+                            <label><input type="radio" name="wouldRecommend" value="Definitely Yes" required> Definitely Yes</label>
+                            <label><input type="radio" name="wouldRecommend" value="Probably Yes"> Probably Yes</label>
+                            <label><input type="radio" name="wouldRecommend" value="Not Sure"> Not Sure</label>
+                            <label><input type="radio" name="wouldRecommend" value="Probably No"> Probably No</label>
+                            <label><input type="radio" name="wouldRecommend" value="Definitely No"> Definitely No</label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Why or Why Not?</label>
+                        <textarea name="recommendReason" rows="3" placeholder="Explain your recommendation rating..."></textarea>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3 class="subsection-title">🎯 Priority Areas</h3>
+                    
+                    <div class="form-group">
+                        <label>What Is Most Important to You? (Rank Top 3)</label>
+                        <textarea name="priorities" rows="3" placeholder="e.g., 1. Fast service response, 2. Product reliability, 3. Competitive pricing"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>What Would Make You Consider Switching Suppliers?</label>
+                        <textarea name="switchReasons" rows="3" placeholder="What factors would influence you to change suppliers?"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer">
+                <h3>Declaration</h3>
+                <p>I hereby declare that the information provided in this survey form is accurate and complete to the best of my knowledge.</p>
+                <div class="checkbox-declaration">
+                    <input type="checkbox" name="declaration" id="declaration" required>
+                    <label for="declaration">I agree to the terms and confirm the accuracy of the information provided <span class="required">*</span></label>
+                </div>
+                <button type="submit" class="btn-submit">📝 Submit Survey Form</button>
+                <p style="margin-top: 20px; color: #6c757d; font-size: 14px;">
+                    Fields marked with <span class="required">*</span> are required
+                </p>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('satisfactionForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData.entries());
+            alert('Form 7: Satisfaction & Service Feedback Submitted Successfully!\n\nData logged to console (F12)');
+            console.log('Form 7 Data:', data);
+        });
+    </script>
+</body>
+</html>

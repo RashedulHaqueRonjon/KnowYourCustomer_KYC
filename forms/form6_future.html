@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form 6: Future Prospectus & Equipment Requirements</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px 40px;
+            text-align: center;
+        }
+        .header h1 { font-size: 1.8em; margin-bottom: 5px; }
+        .header p { font-size: 1em; opacity: 0.95; }
+        .form-header {
+            background: #f8f9fa;
+            padding: 25px 40px;
+            border-bottom: 3px solid #667eea;
+        }
+        .form-header h2 {
+            color: #667eea;
+            font-size: 1.3em;
+            margin-bottom: 20px;
+        }
+        .header-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        .header-item label {
+            display: block;
+            font-weight: 600;
+            color: #495057;
+            margin-bottom: 5px;
+            font-size: 13px;
+        }
+        .header-item input {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #dee2e6;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        .required { color: #dc3545; }
+        .form-content { padding: 40px; }
+        .section-title {
+            font-size: 1.5em;
+            color: #667eea;
+            margin-bottom: 25px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+        }
+        .subsection {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            border: 2px solid #dee2e6;
+        }
+        .subsection-title {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 1.2em;
+            font-weight: 600;
+        }
+        .equipment-entry {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border: 2px solid #dee2e6;
+            position: relative;
+        }
+        .equipment-entry h4 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+        .btn-remove {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        .btn-remove:hover { background: #c82333; }
+        .form-group { margin-bottom: 20px; }
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            color: #495057;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #dee2e6;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+        .radio-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 10px;
+        }
+        .radio-group label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: normal;
+            cursor: pointer;
+            padding: 8px 12px;
+            border: 2px solid #dee2e6;
+            border-radius: 5px;
+            transition: all 0.3s;
+        }
+        .radio-group label:hover {
+            border-color: #667eea;
+            background: white;
+        }
+        .checkbox-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 10px;
+        }
+        .checkbox-group label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: normal;
+            cursor: pointer;
+            padding: 8px 12px;
+            border: 2px solid #dee2e6;
+            border-radius: 5px;
+        }
+        .checkbox-group label:hover {
+            border-color: #667eea;
+            background: white;
+        }
+        .btn-add {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 600;
+            transition: all 0.3s;
+            margin-top: 10px;
+        }
+        .btn-add:hover {
+            background: #218838;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
+        }
+        .footer {
+            background: #f8f9fa;
+            padding: 30px 40px;
+            text-align: center;
+            border-top: 3px solid #667eea;
+        }
+        .footer h3 { color: #495057; margin-bottom: 15px; }
+        .footer p { color: #6c757d; margin-bottom: 20px; line-height: 1.6; }
+        .checkbox-declaration {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+        .checkbox-declaration input { width: 20px; height: 20px; cursor: pointer; }
+        .btn-submit {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 50px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        .btn-submit:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+        }
+        .help-text {
+            font-size: 12px;
+            color: #6c757d;
+            margin-top: 4px;
+        }
+        @media (max-width: 768px) {
+            .grid-2, .grid-3 { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🏥 Medical Equipment KYC Survey Form</h1>
+            <p>Comprehensive Institution Assessment</p>
+        </div>
+
+        <div class="form-header">
+            <h2>📋 Form 6 of 9: Future Prospectus & Equipment Requirements</h2>
+            <div class="header-grid">
+                <div class="header-item">
+                    <label>Institution Name <span class="required">*</span></label>
+                    <input type="text" id="headerInstitutionName" placeholder="e.g., Dhaka Medical College Hospital" required>
+                </div>
+                <div class="header-item">
+                    <label>Institution ID <span class="required">*</span></label>
+                    <input type="text" id="headerInstitutionId" placeholder="e.g., 1000" required>
+                </div>
+                <div class="header-item">
+                    <label>Information Update Date <span class="required">*</span></label>
+                    <input type="date" id="headerUpdateDate" required>
+                </div>
+                <div class="header-item">
+                    <label>Employee ID <span class="required">*</span></label>
+                    <input type="text" id="headerEmployeeId" placeholder="e.g., EMP001" required>
+                </div>
+                <div class="header-item">
+                    <label>Employee Name</label>
+                    <input type="text" id="headerEmployeeName" placeholder="Your Name">
+                </div>
+            </div>
+        </div>
+
+        <form id="futureRequirementsForm">
+            <div class="form-content">
+                <h2 class="section-title">Future Prospectus & Equipment Requirements</h2>
+                
+                <div class="subsection">
+                    <h3 class="subsection-title">🎯 General Purchase Plans</h3>
+                    
+                    <div class="form-group">
+                        <label>Planning to Purchase New Equipment? <span class="required">*</span></label>
+                        <div class="radio-group">
+                            <label><input type="radio" name="planPurchase" value="Yes" required> Yes</label>
+                            <label><input type="radio" name="planPurchase" value="No"> No</label>
+                            <label><input type="radio" name="planPurchase" value="Maybe"> Maybe/Considering</label>
+                        </div>
+                    </div>
+
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label>Expected Purchase Timeline</label>
+                            <select name="purchaseTimeline">
+                                <option value="">-- Select Timeline --</option>
+                                <option value="Within 3 months">Within 3 months</option>
+                                <option value="3-6 months">3-6 months</option>
+                                <option value="6-12 months">6-12 months</option>
+                                <option value="More than 1 year">More than 1 year</option>
+                                <option value="Not decided">Not decided yet</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Estimated Annual Budget (BDT)</label>
+                            <input type="text" name="annualBudget" placeholder="e.g., 50,00,000">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Which Departments Need Equipment Upgrade/Addition?</label>
+                        <div class="checkbox-group">
+                            <label><input type="checkbox" name="needsDept" value="Biochemistry"> Biochemistry</label>
+                            <label><input type="checkbox" name="needsDept" value="Hematology"> Hematology</label>
+                            <label><input type="checkbox" name="needsDept" value="Immunoassay"> Immunoassay</label>
+                            <label><input type="checkbox" name="needsDept" value="ESR"> ESR</label>
+                            <label><input type="checkbox" name="needsDept" value="Microbiology"> Microbiology</label>
+                            <label><input type="checkbox" name="needsDept" value="Histopathology"> Histopathology</label>
+                            <label><input type="checkbox" name="needsDept" value="Radiology"> Radiology & Imaging</label>
+                            <label><input type="checkbox" name="needsDept" value="ICU/NICU"> ICU/NICU</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3 class="subsection-title">🔧 Specific Equipment Requirements</h3>
+                    
+                    <div id="equipmentContainer">
+                        <!-- Equipment entries will be added here -->
+                    </div>
+
+                    <button type="button" class="btn-add" onclick="addEquipment()">
+                        ➕ Add Another Equipment Requirement
+                    </button>
+                </div>
+
+                <div class="subsection">
+                    <h3 class="subsection-title">⚠️ Current Equipment Issues</h3>
+                    
+                    <div class="form-group">
+                        <label>Current Equipment Issues/Concerns</label>
+                        <textarea name="currentIssues" rows="4" placeholder="Describe any issues with existing equipment, frequent breakdowns, service needs, or concerns..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Equipment Replacement Needs</label>
+                        <textarea name="replacementNeeds" rows="3" placeholder="Which equipment needs replacement and why?"></textarea>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3 class="subsection-title">🚀 Future Plans & Expansion</h3>
+                    
+                    <div class="form-group">
+                        <label>New Department Plans</label>
+                        <textarea name="newDepartments" rows="3" placeholder="Plans to add new departments or services..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Capacity Expansion Plans</label>
+                        <textarea name="expansionPlans" rows="3" placeholder="Plans to increase capacity, add more branches, expand facilities..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Technology Upgrade Plans</label>
+                        <textarea name="technologyPlans" rows="3" placeholder="Plans for automation, digital transformation, LIS/HIS implementation..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Staffing Plans</label>
+                        <textarea name="staffingPlans" rows="3" placeholder="Plans to hire additional staff, training programs..."></textarea>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3 class="subsection-title">💬 Additional Information</h3>
+                    
+                    <div class="form-group">
+                        <label>Decision Making Process</label>
+                        <textarea name="decisionProcess" rows="3" placeholder="How are equipment purchase decisions made? Who is involved?"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Budget Approval Process</label>
+                        <textarea name="budgetProcess" rows="3" placeholder="What is the budget approval process and timeline?"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Additional Remarks & Requirements</label>
+                        <textarea name="additionalRemarks" rows="4" placeholder="Any other information, special requirements, preferences, or comments..."></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer">
+                <h3>Declaration</h3>
+                <p>I hereby declare that the information provided in this survey form is accurate and complete to the best of my knowledge.</p>
+                <div class="checkbox-declaration">
+                    <input type="checkbox" name="declaration" id="declaration" required>
+                    <label for="declaration">I agree to the terms and confirm the accuracy of the information provided <span class="required">*</span></label>
+                </div>
+                <button type="submit" class="btn-submit">📝 Submit Form 6</button>
+                <p style="margin-top: 20px; color: #6c757d; font-size: 14px;">
+                    Fields marked with <span class="required">*</span> are required
+                </p>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        let equipmentCount = 0;
+
+        // Set today's date by default
+        document.getElementById('headerUpdateDate').valueAsDate = new Date();
+
+        function addEquipment() {
+            equipmentCount++;
+            const container = document.getElementById('equipmentContainer');
+            const equipDiv = document.createElement('div');
+            equipDiv.className = 'equipment-entry';
+            equipDiv.id = `equipment-${equipmentCount}`;
+            
+            equipDiv.innerHTML = `
+                <h4>🔬 Equipment Requirement #${equipmentCount}</h4>
+                ${equipmentCount > 1 ? `<button type="button" class="btn-remove" onclick="removeEquipment(${equipmentCount})">✕ Remove</button>` : ''}
+                
+                <div class="form-group">
+                    <label>Serial No.</label>
+                    <input type="number" name="equip${equipmentCount}_serial" value="${equipmentCount}" readonly>
+                </div>
+
+                <div class="form-group">
+                    <label>Department <span class="required">*</span></label>
+                    <select name="equip${equipmentCount}_dept" required>
+                        <option value="">-- Select Department --</option>
+                        <option value="Biochemistry">Biochemistry</option>
+                        <option value="Hematology">Hematology</option>
+                        <option value="Immunoassay">Immunoassay</option>
+                        <option value="ESR">ESR</option>
+                        <option value="Microbiology">Microbiology</option>
+                        <option value="Histopathology">Histopathology</option>
+                        <option value="Radiology">Radiology & Imaging</option>
+                        <option value="ICU/NICU">ICU/NICU</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Equipment Type Needed <span class="required">*</span></label>
+                    <input type="text" name="equip${equipmentCount}_type" placeholder="e.g., Chemistry Analyzer, Hematology Analyzer" required>
+                </div>
+
+                <div class="grid-2">
+                    <div class="form-group">
+                        <label>Preferred Brand/Model</label>
+                        <input type="text" name="equip${equipmentCount}_brand" placeholder="e.g., Roche Cobas c501">
+                    </div>
+                    <div class="form-group">
+                        <label>Quantity Required</label>
+                        <input type="number" name="equip${equipmentCount}_quantity" min="1" placeholder="1">
+                    </div>
+                </div>
+
+                <div class="grid-2">
+                    <div class="form-group">
+                        <label>Priority Level <span class="required">*</span></label>
+                        <select name="equip${equipmentCount}_priority" required>
+                            <option value="">-- Select Priority --</option>
+                            <option value="High">High (Urgent)</option>
+                            <option value="Medium">Medium (Important)</option>
+                            <option value="Low">Low (Can Wait)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Budget Allocated (BDT)</label>
+                        <input type="text" name="equip${equipmentCount}_budget" placeholder="e.g., 25,00,000">
+                    </div>
+                </div>
+
+                <div class="grid-2">
+                    <div class="form-group">
+                        <label>Expected Purchase Date</label>
+                        <input type="date" name="equip${equipmentCount}_date">
+                    </div>
+                    <div class="form-group">
+                        <label>Reason for Purchase <span class="required">*</span></label>
+                        <select name="equip${equipmentCount}_reason" required>
+                            <option value="">-- Select Reason --</option>
+                            <option value="New">New Equipment (Adding Capability)</option>
+                            <option value="Replacement">Replacement (Old/Broken)</option>
+                            <option value="Expansion">Expansion (Increase Capacity)</option>
+                            <option value="Upgrade">Technology Upgrade</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Additional Requirements/Specifications</label>
+                    <textarea name="equip${equipmentCount}_specs" rows="2" placeholder="Specific requirements, features needed, throughput, etc."></textarea>
+                </div>
+            `;
+            
+            container.appendChild(equipDiv);
+        }
+
+        function removeEquipment(id) {
+            const element = document.getElementById(`equipment-${id}`);
+            if (element) {
+                element.remove();
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            addEquipment();
+        });
+
+        document.getElementById('futureRequirementsForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const headerData = {
+                institutionId: document.getElementById('headerInstitutionId').value,
+                institutionName: document.getElementById('headerInstitutionName').value,
+                updateDate: document.getElementById('headerUpdateDate').value,
+                employeeId: document.getElementById('headerEmployeeId').value,
+                employeeName: document.getElementById('headerEmployeeName').value
+            };
+            
+            const formData = new FormData(this);
+            const requirements = [];
+            
+            for (let i = 1; i <= equipmentCount; i++) {
+                if (document.getElementById(`equipment-${i}`)) {
+                    requirements.push({
+                        serialNo: i,
+                        department: formData.get(`equip${i}_dept`),
+                        equipmentType: formData.get(`equip${i}_type`),
+                        preferredBrand: formData.get(`equip${i}_brand`),
+                        quantity: formData.get(`equip${i}_quantity`),
+                        priority: formData.get(`equip${i}_priority`),
+                        budget: formData.get(`equip${i}_budget`),
+                        expectedDate: formData.get(`equip${i}_date`),
+                        reason: formData.get(`equip${i}_reason`),
+                        specifications: formData.get(`equip${i}_specs`)
+                    });
+                }
+            }
+            
+            const completeData = {
+                ...headerData,
+                planPurchase: formData.get('planPurchase'),
+                purchaseTimeline: formData.get('purchaseTimeline'),
+                annualBudget: formData.get('annualBudget'),
+                departmentsNeedingUpgrade: formData.getAll('needsDept'),
+                equipmentRequirements: requirements,
+                currentIssues: formData.get('currentIssues'),
+                replacementNeeds: formData.get('replacementNeeds'),
+                futurePlans: {
+                    newDepartments: formData.get('newDepartments'),
+                    expansionPlans: formData.get('expansionPlans'),
+                    technologyPlans: formData.get('technologyPlans'),
+                    staffingPlans: formData.get('staffingPlans')
+                },
+                decisionProcess: formData.get('decisionProcess'),
+                budgetProcess: formData.get('budgetProcess'),
+                additionalRemarks: formData.get('additionalRemarks')
+            };
+            
+            console.log('Form 6 Data for Database:', completeData);
+            console.log('SQL Tables: Visits (main) + SurveyResponses (details)');
+            console.log('Procedure: sp_Visits_Create + store requirements as survey responses');
+            
+            alert(`Form 6: Future Requirements Submitted Successfully!\n\n✓ ${requirements.length} equipment requirement(s) recorded\n✓ Tables: Visits + SurveyResponses\n✓ Check console (F12) for details`);
+        });
+    </script>
+</body>
+</html>

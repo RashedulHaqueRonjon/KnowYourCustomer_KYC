@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form 8: Market Intelligence</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px 40px;
+            text-align: center;
+        }
+        .header h1 { font-size: 1.8em; margin-bottom: 5px; }
+        .header p { font-size: 1em; opacity: 0.95; }
+        .form-header {
+            background: #f8f9fa;
+            padding: 25px 40px;
+            border-bottom: 3px solid #667eea;
+        }
+        .form-header h2 {
+            color: #667eea;
+            font-size: 1.3em;
+            margin-bottom: 20px;
+        }
+        .header-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        .header-item label {
+            display: block;
+            font-weight: 600;
+            color: #495057;
+            margin-bottom: 5px;
+            font-size: 13px;
+        }
+        .header-item input {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #dee2e6;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        .required { color: #dc3545; }
+        .form-content { padding: 40px; }
+        .section-title {
+            font-size: 1.5em;
+            color: #667eea;
+            margin-bottom: 25px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+        }
+        .subsection {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            border: 2px solid #dee2e6;
+        }
+        .subsection-title {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 1.2em;
+            font-weight: 600;
+        }
+        .competitor-entry {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border: 2px solid #dee2e6;
+            position: relative;
+        }
+        .competitor-entry h4 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+        .btn-remove {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        .btn-remove:hover { background: #c82333; }
+        .form-group { margin-bottom: 20px; }
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            color: #495057;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #dee2e6;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .radio-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 10px;
+        }
+        .radio-group label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: normal;
+            cursor: pointer;
+            padding: 8px 12px;
+            border: 2px solid #dee2e6;
+            border-radius: 5px;
+            transition: all 0.3s;
+        }
+        .radio-group label:hover {
+            border-color: #667eea;
+            background: white;
+        }
+        .btn-add {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 600;
+            transition: all 0.3s;
+            margin-top: 10px;
+        }
+        .btn-add:hover {
+            background: #218838;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
+        }
+        .footer {
+            background: #f8f9fa;
+            padding: 30px 40px;
+            text-align: center;
+            border-top: 3px solid #667eea;
+        }
+        .footer h3 { color: #495057; margin-bottom: 15px; }
+        .footer p { color: #6c757d; margin-bottom: 20px; line-height: 1.6; }
+        .checkbox-declaration {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+        .checkbox-declaration input { width: 20px; height: 20px; cursor: pointer; }
+        .btn-submit {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 50px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        .btn-submit:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+        }
+        @media (max-width: 768px) {
+            .grid-2 { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🏥 Medical Equipment KYC Survey Form</h1>
+            <p>Comprehensive Institution Assessment</p>
+        </div>
+
+        <div class="form-header">
+            <h2>📋 Form 8 of 9: Market Intelligence</h2>
+            <div class="header-grid">
+                <div class="header-item">
+                    <label>Institution Name <span class="required">*</span></label>
+                    <input type="text" name="institutionName" placeholder="e.g., Dhaka Medical College Hospital" required>
+                </div>
+                <div class="header-item">
+                    <label>Institution ID (if not first visit)</label>
+                    <input type="text" name="institutionId" placeholder="e.g., INST-1000">
+                </div>
+                <div class="header-item">
+                    <label>Information Update Date <span class="required">*</span></label>
+                    <input type="date" name="updateDate" required>
+                </div>
+                <div class="header-item">
+                    <label>Employee ID <span class="required">*</span></label>
+                    <input type="text" name="employeeId" placeholder="e.g., EMP001" required>
+                </div>
+                <div class="header-item">
+                    <label>Employee Name (Optional)</label>
+                    <input type="text" name="employeeName" placeholder="Office/Nick/Family Name">
+                </div>
+            </div>
+        </div>
+
+        <form id="marketIntelligenceForm">
+            <div class="form-content">
+                <h2 class="section-title">Market Intelligence</h2>
+                
+                <div class="subsection">
+                    <h3 class="subsection-title">👤 Feedback Provider Information</h3>
+                    
+                    <div class="form-group">
+                        <label>Provider Type <span class="required">*</span></label>
+                        <div class="radio-group">
+                            <label><input type="radio" name="providerType" value="Key Person" required> Key Person/Decision Maker</label>
+                            <label><input type="radio" name="providerType" value="Doctor"> Doctor/Consultant</label>
+                            <label><input type="radio" name="providerType" value="Equipment User"> Equipment User/Technician</label>
+                            <label><input type="radio" name="providerType" value="Other"> Other Staff</label>
+                        </div>
+                    </div>
+
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label>Provider Name <span class="required">*</span></label>
+                            <input type="text" name="providerName" placeholder="Full Name" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Designation</label>
+                            <input type="text" name="providerDesignation" placeholder="e.g., Lab Director, Purchase Manager">
+                        </div>
+                    </div>
+
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label>Department</label>
+                            <input type="text" name="providerDept" placeholder="e.g., Procurement, Laboratory">
+                        </div>
+                        <div class="form-group">
+                            <label>Contact Phone</label>
+                            <input type="tel" name="providerPhone" placeholder="+880-XXXX-XXXXXX">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3 class="subsection-title">🏢 Competitor Analysis - General</h3>
+                    
+                    <div class="form-group">
+                        <label>Are You Using Equipment from Other Suppliers? <span class="required">*</span></label>
+                        <div class="radio-group">
+                            <label><input type="radio" name="hasCompetitors" value="Yes" required> Yes</label>
+                            <label><input type="radio" name="hasCompetitors" value="No"> No</label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>If Yes, Which Companies/Brands?</label>
+                        <textarea name="competitorBrands" rows="3" placeholder="List other suppliers or brands you work with (e.g., Roche, Siemens, Abbott)..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>How Many Other Suppliers Do You Work With?</label>
+                        <input type="number" name="competitorCount" min="0" placeholder="Number of other suppliers">
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3 class="subsection-title">🔬 Specific Competitor Equipment Details</h3>
+                    
+                    <div id="competitorContainer">
+                        <!-- Competitor equipment entries will be added here -->
+                    </div>
+
+                    <button type="button" class="btn-add" onclick="addCompetitor()">
+                        ➕ Add Another Competitor Equipment
+                    </button>
+                </div>
+
+                <div class="subsection">
+                    <h3 class="subsection-title">📊 Competitive Positioning</h3>
+                    
+                    <div class="form-group">
+                        <label>Why Do You Choose Us Over Competitors?</label>
+                        <textarea name="ourAdvantages" rows="4" placeholder="What makes our company your preferred choice (e.g., better service, reliability, pricing, support)..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>What Makes Us Unique/Different?</label>
+                        <textarea name="uniqueFactors" rows="3" placeholder="Unique selling points or differentiators..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>What Do Competitors Offer That We Don't?</label>
+                        <textarea name="competitorAdvantages" rows="4" placeholder="Products, services, pricing, features, or benefits that competitors provide..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Areas Where Competitors Are Better</label>
+                        <textarea name="competitorStrengths" rows="3" placeholder="Where do competitors outperform us?"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Areas Where We Are Better</label>
+                        <textarea name="ourStrengths" rows="3" placeholder="Where do we outperform competitors?"></textarea>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3 class="subsection-title">💰 Pricing & Value Perception</h3>
+                    
+                    <div class="form-group">
+                        <label>How Do Our Prices Compare to Competitors?</label>
+                        <div class="radio-group">
+                            <label><input type="radio" name="priceComparison" value="Much Lower"> Much Lower</label>
+                            <label><input type="radio" name="priceComparison" value="Slightly Lower"> Slightly Lower</label>
+                            <label><input type="radio" name="priceComparison" value="About the Same"> About the Same</label>
+                            <label><input type="radio" name="priceComparison" value="Slightly Higher"> Slightly Higher</label>
+                            <label><input type="radio" name="priceComparison" value="Much Higher"> Much Higher</label>
+                            <label><input type="radio" name="priceComparison" value="Don't Know"> Don't Know</label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Price vs. Value Perception</label>
+                        <textarea name="valuePerception" rows="3" placeholder="Do you feel you're getting good value for the price paid compared to competitors?"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Are Price Negotiations Common with Competitors?</label>
+                        <div class="radio-group">
+                            <label><input type="radio" name="competitorNegotiation" value="Yes"> Yes, Always</label>
+                            <label><input type="radio" name="competitorNegotiation" value="Sometimes"> Sometimes</label>
+                            <label><input type="radio" name="competitorNegotiation" value="Rarely"> Rarely</label>
+                            <label><input type="radio" name="competitorNegotiation" value="Never"> Never</label>
+                            <label><input type="radio" name="competitorNegotiation" value="Don't Know"> Don't Know</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3 class="subsection-title">🎯 Market Dynamics</h3>
+                    
+                    <div class="form-group">
+                        <label>What Influences Your Supplier Selection Most?</label>
+                        <textarea name="selectionFactors" rows="3" placeholder="e.g., Price, Quality, Service, Brand reputation, Relationship..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Are You Open to Switching Suppliers?</label>
+                        <div class="radio-group">
+                            <label><input type="radio" name="openToSwitch" value="Yes"> Yes, Actively Looking</label>
+                            <label><input type="radio" name="openToSwitch" value="Maybe"> Maybe, If Better Option</label>
+                            <label><input type="radio" name="openToSwitch" value="No"> No, Satisfied with Current</label>
+                            <label><input type="radio" name="openToSwitch" value="Contract"> Under Contract</label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Market Trends & Observations</label>
+                        <textarea name="marketTrends" rows="3" placeholder="Any trends, changes, or observations in the medical equipment market..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Competitor Marketing Activities</label>
+                        <textarea name="competitorMarketing" rows="3" placeholder="Promotions, campaigns, or marketing activities you've noticed from competitors..."></textarea>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3 class="subsection-title">💬 Additional Intelligence</h3>
+                    
+                    <div class="form-group">
+                        <label>Competitor Service Quality Feedback</label>
+                        <textarea name="competitorService" rows="3" placeholder="Your experience with competitor after-sales service and support..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Unmet Needs in the Market</label>
+                        <textarea name="unmetNeeds" rows="3" placeholder="Products, services, or features that no supplier currently offers well..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Additional Market Intelligence</label>
+                        <textarea name="additionalIntel" rows="4" placeholder="Any other relevant market information, competitor activities, or insights..."></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer">
+                <h3>Declaration</h3>
+                <p>I hereby declare that the information provided in this survey form is accurate and complete to the best of my knowledge.</p>
+                <div class="checkbox-declaration">
+                    <input type="checkbox" name="declaration" id="declaration" required>
+                    <label for="declaration">I agree to the terms and confirm the accuracy of the information provided <span class="required">*</span></label>
+                </div>
+                <button type="submit" class="btn-submit">📝 Submit Survey Form</button>
+                <p style="margin-top: 20px; color: #6c757d; font-size: 14px;">
+                    Fields marked with <span class="required">*</span> are required
+                </p>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        let competitorCount = 0;
+
+        function addCompetitor() {
+            competitorCount++;
+            const container = document.getElementById('competitorContainer');
+            const compDiv = document.createElement('div');
+            compDiv.className = 'competitor-entry';
+            compDiv.id = `competitor-${competitorCount}`;
+            
+            compDiv.innerHTML = `
+                <h4>🏢 Competitor Equipment #${competitorCount}</h4>
+                ${competitorCount > 1 ? `<button type="button" class="btn-remove" onclick="removeCompetitor(${competitorCount})">✕ Remove</button>` : ''}
+                
+                <div class="form-group">
+                    <label>Serial No.</label>
+                    <input type="number" name="comp${competitorCount}_serial" value="${competitorCount}" readonly>
+                </div>
+
+                <div class="form-group">
+                    <label>Competitor Company Name <span class="required">*</span></label>
+                    <input type="text" name="comp${competitorCount}_company" placeholder="e.g., Roche, Siemens, Abbott" required>
+                </div>
+
+                <div class="grid-2">
+                    <div class="form-group">
+                        <label>Equipment Type <span class="required">*</span></label>
+                        <input type="text" name="comp${competitorCount}_type" placeholder="e.g., Chemistry Analyzer" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Brand & Model</label>
+                        <input type="text" name="comp${competitorCount}_model" placeholder="e.g., Cobas c501">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Department Using This Equipment</label>
+                    <input type="text" name="comp${competitorCount}_dept" placeholder="e.g., Biochemistry, Hematology">
+                </div>
+
+                <div class="form-group">
+                    <label>Why Was This Competitor Chosen Over Us?</label>
+                    <textarea name="comp${competitorCount}_whyChosen" rows="2" placeholder="Reasons for selecting this competitor's product..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Advantages They Offer</label>
+                    <textarea name="comp${competitorCount}_advantages" rows="2" placeholder="What makes their product/service better or attractive..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Disadvantages Compared to Us</label>
+                    <textarea name="comp${competitorCount}_disadvantages" rows="2" placeholder="Areas where they fall short compared to our offerings..."></textarea>
+                </div>
+
+                <div class="grid-2">
+                    <div class="form-group">
+                        <label>Pricing Comparison</label>
+                        <select name="comp${competitorCount}_pricing">
+                            <option value="">-- Select --</option>
+                            <option value="Much Cheaper">Much Cheaper than Us</option>
+                            <option value="Slightly Cheaper">Slightly Cheaper than Us</option>
+                            <option value="Similar">Similar to Us</option>
+                            <option value="Slightly Expensive">Slightly More Expensive</option>
+                            <option value="Much Expensive">Much More Expensive</option>
+                            <option value="Unknown">Unknown</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Service Quality Comparison</label>
+                        <select name="comp${competitorCount}_service">
+                            <option value="">-- Select --</option>
+                            <option value="Much Better">Much Better than Us</option>
+                            <option value="Slightly Better">Slightly Better than Us</option>
+                            <option value="Similar">Similar to Us</option>
+                            <option value="Slightly Worse">Slightly Worse than Us</option>
+                            <option value="Much Worse">Much Worse than Us</option>
+                            <option value="Unknown">Unknown</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Customer Relationship with This Competitor</label>
+                    <select name="comp${competitorCount}_relationship">
+                        <option value="">-- Select --</option>
+                        <option value="Long-term Partner">Long-term Partner (5+ years)</option>
+                        <option value="Established">Established (2-5 years)</option>
+                        <option value="Recent">Recent (Less than 2 years)</option>
+                        <option value="Trial">Trial/Testing Phase</option>
+                        <option value="Unknown">Unknown</option>
+                    </select>
+                </div>
+            `;
+            
+            container.appendChild(compDiv);
+        }
+
+        function removeCompetitor(id) {
+            const element = document.getElementById(`competitor-${id}`);
+            if (element) {
+                element.remove();
+            }
+        }
+
+        document.getElementById('marketIntelligenceForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+            const data = {};
+            for (let [key, value] of formData.entries()) {
+                if (data[key]) {
+                    if (Array.isArray(data[key])) {
+                        data[key].push(value);
+                    } else {
+                        data[key] = [data[key], value];
+                    }
+                } else {
+                    data[key] = value;
+                }
+            }
+            alert('Form 8: Market Intelligence Submitted Successfully!\n\nData logged to console (F12)');
+            console.log('Form 8 Data:', data);
+        });
+    </script>
+</body>
+</html>

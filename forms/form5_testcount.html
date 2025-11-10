@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form 5: Test Count & Laboratory Capacity</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px 40px;
+            text-align: center;
+        }
+        .header h1 { font-size: 1.8em; margin-bottom: 5px; }
+        .header p { font-size: 1em; opacity: 0.95; }
+        .form-header {
+            background: #f8f9fa;
+            padding: 25px 40px;
+            border-bottom: 3px solid #667eea;
+        }
+        .form-header h2 {
+            color: #667eea;
+            font-size: 1.3em;
+            margin-bottom: 20px;
+        }
+        .header-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        .header-item label {
+            display: block;
+            font-weight: 600;
+            color: #495057;
+            margin-bottom: 5px;
+            font-size: 13px;
+        }
+        .header-item input {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #dee2e6;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        .required { color: #dc3545; }
+        .form-content { padding: 40px; }
+        .section-title {
+            font-size: 1.5em;
+            color: #667eea;
+            margin-bottom: 25px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+        }
+        .subsection {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            border: 2px solid #dee2e6;
+        }
+        .subsection-title {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 1.2em;
+            font-weight: 600;
+        }
+        .test-category {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            border: 2px solid #dee2e6;
+        }
+        .test-category h4 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .form-group { margin-bottom: 20px; }
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            color: #495057;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #dee2e6;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+        .summary-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 10px;
+            text-align: center;
+            margin-top: 20px;
+        }
+        .summary-box h3 {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+        }
+        .summary-box .total {
+            font-size: 2.5em;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        .footer {
+            background: #f8f9fa;
+            padding: 30px 40px;
+            text-align: center;
+            border-top: 3px solid #667eea;
+        }
+        .footer h3 { color: #495057; margin-bottom: 15px; }
+        .footer p { color: #6c757d; margin-bottom: 20px; line-height: 1.6; }
+        .checkbox-declaration {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+        .checkbox-declaration input { width: 20px; height: 20px; cursor: pointer; }
+        .btn-submit {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 50px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        .btn-submit:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+        }
+        .help-text {
+            font-size: 12px;
+            color: #6c757d;
+            margin-top: 4px;
+        }
+        @media (max-width: 768px) {
+            .grid-2, .grid-3 { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🏥 Medical Equipment KYC Survey Form</h1>
+            <p>Comprehensive Institution Assessment</p>
+        </div>
+
+        <div class="form-header">
+            <h2>📋 Form 5 of 9: Test Count & Laboratory Capacity</h2>
+            <div class="header-grid">
+                <div class="header-item">
+                    <label>Institution Name <span class="required">*</span></label>
+                    <input type="text" id="headerInstitutionName" placeholder="e.g., Dhaka Medical College Hospital" required>
+                </div>
+                <div class="header-item">
+                    <label>Institution ID <span class="required">*</span></label>
+                    <input type="text" id="headerInstitutionId" placeholder="e.g., 1000" required>
+                </div>
+                <div class="header-item">
+                    <label>Information Update Date <span class="required">*</span></label>
+                    <input type="date" id="headerUpdateDate" required>
+                </div>
+                <div class="header-item">
+                    <label>Employee ID <span class="required">*</span></label>
+                    <input type="text" id="headerEmployeeId" placeholder="e.g., EMP001" required>
+                </div>
+                <div class="header-item">
+                    <label>Employee Name</label>
+                    <input type="text" id="headerEmployeeName" placeholder="Your Name">
+                </div>
+            </div>
+        </div>
+
+        <form id="testCountForm">
+            <div class="form-content">
+                <h2 class="section-title">Test Count & Laboratory Capacity</h2>
+                
+                <div class="subsection">
+                    <h3 class="subsection-title">📊 Monthly Test Volume by Department</h3>
+                    
+                    <div class="test-category">
+                        <h4>🧪 Biochemistry Tests</h4>
+                        <div class="form-group">
+                            <label>Number of Tests per Month</label>
+                            <input type="number" name="testBiochemistry" min="0" placeholder="e.g., 5000" oninput="calculateTotal()">
+                        </div>
+                    </div>
+
+                    <div class="test-category">
+                        <h4>🩸 Hematology Tests</h4>
+                        <div class="form-group">
+                            <label>Number of Tests per Month</label>
+                            <input type="number" name="testHematology" min="0" placeholder="e.g., 3000" oninput="calculateTotal()">
+                        </div>
+                    </div>
+
+                    <div class="test-category">
+                        <h4>💉 Immunoassay Tests</h4>
+                        <div class="form-group">
+                            <label>Number of Tests per Month</label>
+                            <input type="number" name="testImmunoassay" min="0" placeholder="e.g., 2000" oninput="calculateTotal()">
+                        </div>
+                    </div>
+
+                    <div class="test-category">
+                        <h4>🔬 ESR Tests</h4>
+                        <div class="form-group">
+                            <label>Number of Tests per Month</label>
+                            <input type="number" name="testESR" min="0" placeholder="e.g., 1500" oninput="calculateTotal()">
+                        </div>
+                    </div>
+
+                    <div class="test-category">
+                        <h4>🦠 Microbiology Tests</h4>
+                        <div class="form-group">
+                            <label>Number of Tests per Month</label>
+                            <input type="number" name="testMicrobiology" min="0" placeholder="e.g., 1000" oninput="calculateTotal()">
+                        </div>
+                    </div>
+
+                    <div class="test-category">
+                        <h4>🔬 Histopathology Tests</h4>
+                        <div class="form-group">
+                            <label>Number of Tests per Month</label>
+                            <input type="number" name="testHistopathology" min="0" placeholder="e.g., 800" oninput="calculateTotal()">
+                        </div>
+                    </div>
+
+                    <div class="test-category">
+                        <h4>📷 Radiology & Imaging</h4>
+                        <div class="form-group">
+                            <label>Number of Tests per Month</label>
+                            <input type="number" name="testRadiology" min="0" placeholder="e.g., 2500" oninput="calculateTotal()">
+                        </div>
+                    </div>
+
+                    <div class="test-category">
+                        <h4>📋 Other Tests</h4>
+                        <div class="form-group">
+                            <label>Number of Tests per Month</label>
+                            <input type="number" name="testOther" min="0" placeholder="e.g., 500" oninput="calculateTotal()">
+                        </div>
+                        <div class="form-group">
+                            <label>Specify Other Test Types</label>
+                            <input type="text" name="testOtherTypes" placeholder="e.g., Serology, Molecular Diagnostics">
+                        </div>
+                    </div>
+
+                    <div class="summary-box">
+                        <h3>Total Monthly Tests</h3>
+                        <div class="total" id="totalTests">0</div>
+                        <p>Approximate Annual Tests: <strong id="annualTests">0</strong></p>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3 class="subsection-title">📈 Laboratory Capacity & Utilization</h3>
+                    
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label>Total Monthly Capacity (Maximum Tests)</label>
+                            <input type="number" name="monthlyCapacity" min="0" placeholder="e.g., 20000">
+                        </div>
+                        <div class="form-group">
+                            <label>Current Utilization Percentage</label>
+                            <input type="number" name="utilizationPercent" min="0" max="100" placeholder="e.g., 75">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Peak Season Months</label>
+                        <input type="text" name="peakMonths" placeholder="e.g., January, February, December">
+                    </div>
+
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label>Peak Season Test Volume (% increase)</label>
+                            <input type="number" name="peakIncrease" min="0" max="500" placeholder="e.g., 30">
+                        </div>
+                        <div class="form-group">
+                            <label>Average Turn-Around Time (hours)</label>
+                            <input type="number" name="avgTurnAround" min="0" step="0.5" placeholder="e.g., 4.5">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3 class="subsection-title">👥 Staffing & Operations</h3>
+                    
+                    <div class="grid-3">
+                        <div class="form-group">
+                            <label>Lab Technicians</label>
+                            <input type="number" name="technicianCount" min="0" placeholder="e.g., 15">
+                        </div>
+                        <div class="form-group">
+                            <label>Medical Technologists</label>
+                            <input type="number" name="technologistCount" min="0" placeholder="e.g., 5">
+                        </div>
+                        <div class="form-group">
+                            <label>Support Staff</label>
+                            <input type="number" name="supportCount" min="0" placeholder="e.g., 8">
+                        </div>
+                    </div>
+
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label>Operating Hours per Day</label>
+                            <input type="number" name="operatingHours" min="1" max="24" placeholder="e.g., 16">
+                        </div>
+                        <div class="form-group">
+                            <label>Operating Days per Week</label>
+                            <input type="number" name="operatingDays" min="1" max="7" placeholder="e.g., 6">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3 class="subsection-title">💬 Additional Capacity Information</h3>
+                    
+                    <div class="form-group">
+                        <label>Capacity Constraints or Bottlenecks</label>
+                        <textarea name="capacityConstraints" rows="3" placeholder="Describe any limitations in test processing, equipment, or staffing..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Plans for Capacity Expansion</label>
+                        <textarea name="expansionPlans" rows="3" placeholder="Any plans to increase testing capacity, add new departments, or upgrade equipment..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Additional Remarks</label>
+                        <textarea name="additionalRemarks" rows="3" placeholder="Any other relevant information about laboratory capacity and operations..."></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer">
+                <h3>Declaration</h3>
+                <p>I hereby declare that the information provided in this survey form is accurate and complete to the best of my knowledge.</p>
+                <div class="checkbox-declaration">
+                    <input type="checkbox" name="declaration" id="declaration" required>
+                    <label for="declaration">I agree to the terms and confirm the accuracy of the information provided <span class="required">*</span></label>
+                </div>
+                <button type="submit" class="btn-submit">📝 Submit Form 5</button>
+                <p style="margin-top: 20px; color: #6c757d; font-size: 14px;">
+                    Fields marked with <span class="required">*</span> are required
+                </p>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        // Set today's date by default
+        document.getElementById('headerUpdateDate').valueAsDate = new Date();
+
+        function calculateTotal() {
+            const fields = [
+                'testBiochemistry',
+                'testHematology',
+                'testImmunoassay',
+                'testESR',
+                'testMicrobiology',
+                'testHistopathology',
+                'testRadiology',
+                'testOther'
+            ];
+            
+            let total = 0;
+            fields.forEach(field => {
+                const value = parseInt(document.querySelector(`input[name="${field}"]`).value) || 0;
+                total += value;
+            });
+            
+            document.getElementById('totalTests').textContent = total.toLocaleString();
+            document.getElementById('annualTests').textContent = (total * 12).toLocaleString();
+        }
+
+        document.getElementById('testCountForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Collect header data
+            const headerData = {
+                institutionId: document.getElementById('headerInstitutionId').value,
+                institutionName: document.getElementById('headerInstitutionName').value,
+                updateDate: document.getElementById('headerUpdateDate').value,
+                employeeId: document.getElementById('headerEmployeeId').value,
+                employeeName: document.getElementById('headerEmployeeName').value
+            };
+            
+            // Collect form data
+            const formData = new FormData(this);
+            const testData = Object.fromEntries(formData.entries());
+            
+            // Structure for database (SurveyResponses)
+            const surveyResponses = [
+                { question: 'Monthly Biochemistry Tests', response: testData.testBiochemistry || '0' },
+                { question: 'Monthly Hematology Tests', response: testData.testHematology || '0' },
+                { question: 'Monthly Immunoassay Tests', response: testData.testImmunoassay || '0' },
+                { question: 'Monthly ESR Tests', response: testData.testESR || '0' },
+                { question: 'Monthly Microbiology Tests', response: testData.testMicrobiology || '0' },
+                { question: 'Monthly Histopathology Tests', response: testData.testHistopathology || '0' },
+                { question: 'Monthly Radiology Tests', response: testData.testRadiology || '0' },
+                { question: 'Monthly Other Tests', response: testData.testOther || '0' },
+                { question: 'Other Test Types', response: testData.testOtherTypes || 'N/A' },
+                { question: 'Total Monthly Capacity', response: testData.monthlyCapacity || 'N/A' },
+                { question: 'Current Utilization %', response: testData.utilizationPercent || 'N/A' },
+                { question: 'Staffing: Technicians', response: testData.technicianCount || 'N/A' },
+                { question: 'Staffing: Technologists', response: testData.technologistCount || 'N/A' },
+                { question: 'Staffing: Support', response: testData.supportCount || 'N/A' },
+                { question: 'Capacity Constraints', response: testData.capacityConstraints || 'None reported' }
+            ];
+            
+            const completeData = {
+                ...headerData,
+                testData: testData,
+                surveyResponses: surveyResponses,
+                totalMonthlyTests: parseInt(document.getElementById('totalTests').textContent.replace(/,/g, '')),
+                totalAnnualTests: parseInt(document.getElementById('annualTests').textContent.replace(/,/g, ''))
+            };
+            
+            console.log('Form 5 Data for Database:', completeData);
+            console.log('SQL Table: SurveyResponses');
+            console.log('Each test count stored as separate survey response');
+            console.log('Link to: Visits table (VisitID), SurveyQuestions table (QuestionID)');
+            
+            alert(`Form 5: Test Count & Laboratory Capacity Submitted Successfully!\n\n✓ ${surveyResponses.length} data points recorded\n✓ Total Monthly Tests: ${completeData.totalMonthlyTests.toLocaleString()}\n✓ Table: SurveyResponses\n✓ Check console (F12) for details`);
+            
+            // In production:
+            /*
+            // First create a visit record if not exists
+            const visitResponse = await fetch('/api/visits', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    institutionId: headerData.institutionId,
+                    employeeId: headerData.employeeId,
+                    visitDate: headerData.updateDate,
+                    visitType: 'Survey',
+                    visitPurpose: 'Test Count & Capacity Assessment'
+                })
+            });
+            const visitData = await visitResponse.json();
+            
+            // Then store each response
+            surveyResponses.forEach(response => {
+                fetch('/api/survey-responses', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        visitId: visitData.VisitID,
+                        questionText: response.question,
+                        responseText: response.response,
+                        surveyType: 'Visit',
+                        respondentRole: 'Institution Staff'
+                    })
+                });
+            });
+            */
+        });
+    </script>
+</body>
+</html>
